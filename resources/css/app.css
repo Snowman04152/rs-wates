@@ -1,0 +1,35 @@
+.bg-greencustom {
+    
+    background-color: #7ABA78;
+}
+
+    .icon-input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-input-container input {
+        padding-left: 3rem; /* Adjust padding to make space for the icon */
+    }
+
+    .icon-input-container .fas {
+        position: absolute;
+        left: 10px;
+        color: #060606; /* Optional: Change icon color */
+        
+    }
+
+    .pops::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-family: 'myFont', Arial, Helvetica, sans-serif;
+        opacity: 1; /* Firefox */
+      }
+      
+      .pops:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        font-family: 'myFont', Arial, Helvetica, sans-serif;
+      }
+      
+      .pops::-ms-input-placeholder { /* Microsoft Edge */
+        font-family: 'myFont', Arial, Helvetica, sans-serif;
+      }
+    
