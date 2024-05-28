@@ -20,6 +20,4 @@ Route::get('/merkalat', [AlatMedisController::class, 'merk_alat'])->name('merk_a
 Route::get('/ruangalat', [AlatMedisController::class, 'ruang_alat'])->name('ruang_alat');
 Route::get('/dataperiksa', [AlatMedisController::class, 'data_periksa'])->name('data_periksa');
 Route::get('/register',[AuthController::class, 'register'])->name('register');
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
