@@ -13,6 +13,7 @@ class AlatMedisController extends Controller
     {
         //
     }
+    //Function to admin//
     public function data_alat(){
         return view('admin.dataAlat');
     }
@@ -30,9 +31,24 @@ class AlatMedisController extends Controller
     public function data_periksa(){
         return view('admin.dataPeriksa');
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+    //---------------------------------------------------------------------- Function to user----------------------------------------------------------------------------------------------//
+    public function data_alat_user(){
+        return view('user.dataAlatuser');
+    }
+
+    public function jenis_alat_user(){
+        return view('user.jenisAlatuser');
+    }
+    public function merk_alat_user(){
+        return view('user.merkAlatuser');
+    }
+    public function ruang_alat_user(){
+        return view('user.ruangAlatuser');
+    }
+
+    public function data_periksa_user(){
+        return view('user.dataPeriksauser');
+    }
     public function create()
     {
         //
