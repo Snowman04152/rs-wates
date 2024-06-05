@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlatMedisController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,5 +34,4 @@ Route::middleware(['auth', 'checkrole:2 '])->group(function () {
     Route::get('/dataperiksauser', [AlatMedisController::class, 'data_periksa_user'])->name('data_periksa_user');
 });
 
-
-
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');

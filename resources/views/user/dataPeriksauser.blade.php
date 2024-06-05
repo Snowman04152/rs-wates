@@ -7,7 +7,15 @@
             <div class="col-3 fs-4 d-flex ">
                 <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-envelope "></i></a></div>
                 <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a></div>
-                <div class="fw-bold mt-1"><i class="bi bi-person border border-dark p-2 rounded-5 ms-1 "></i> Admin</div>
+                <div class=" dropdown ms-1 mt-1 fs-5 " >
+                    <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Admin
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row p-3 justify-content-between">

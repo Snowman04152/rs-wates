@@ -6,8 +6,16 @@
                 <div class="col-9 fs-3 p-2"><b>Pemeliharaan Alat Medis</b></div>
                 <div class="col-3 fs-4 d-flex ">
                     <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-envelope "></i></a></div>
-                    <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a></div>
-                    <div class="fw-bold mt-1"><i class="bi bi-person border border-dark p-2 rounded-5 ms-1 "></i> Admin
+                    <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a>
+                    </div>
+                    <div class=" dropdown ms-1 mt-1 fs-5 " >
+                        <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Admin
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-1"></div>

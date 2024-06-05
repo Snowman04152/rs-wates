@@ -25,11 +25,15 @@
                 </div>
                 <div class="mx-5 p-5 text-dark">
                     <div class="my-2">
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
                         <input type="email" class="form-control rounded-5 @error('email') is-invalid @enderror"
                             name="email" id="exampleFormControlInput1" placeholder="Email">
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="my-2">
                         <input type="text" class="form-control rounded-5 @error('username') is-invalid @enderror"
@@ -43,23 +47,30 @@
                     <div class="my-2">
                         <input type="number" class="form-control rounded-5 @error('telp') is-invalid @enderror"
                             name="telp" id="exampleFormControlInput1" placeholder="No Telepon Aktif">
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                        @error('telp')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="my-2">
                         <input type="password" class="form-control rounded-5 @error('password') is-invalid @enderror"
                             name="password" id="exampleFormControlInput1" placeholder="Password">
-                    </div> <span class="invalid-feedback" role="alert">
+                    </div>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
+                    @enderror
                     <div class="">
-                        <input type="password" name="password_confirm" class="form-control rounded-5" id="exampleFormControlInput1"
-                        required autocomplete="new-password" placeholder="Konfirmasi Password">
+                        <input type="password" name="password_confirm" class="form-control rounded-5"
+                            id="exampleFormControlInput1" required autocomplete="new-password"
+                            placeholder="Konfirmasi Password">
                     </div>
                     <div class="d-grid ">
-                        <button type="button" class="btn btn-primary my-4 rounded-5 ">Register</button>
+                        <button type="submit" class="btn btn-primary my-4 rounded-5 ">Register</button>
                         <div class="d-flex justify-content-start">
+                        </form>
                             <span class=" ms-2">Have an Account?</span>
                             <a href="{{ route('login') }}" class="ms-2">Login</a>
                         </div>

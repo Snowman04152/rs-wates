@@ -8,7 +8,7 @@
     </div>
     <ul class="list-unstyled components fs-5">
         <li>
-            <a href="{{ route('dashboard') }}"> <i class="bi bi-house "></i> Halaman Utama </a>
+            <a href="{{ route('dashboarduser') }}"> <i class="bi bi-house "></i> Halaman Utama </a>
         </li>
         <li>
             <a href="#submenu" data-bs-toggle="navigate" aria-expanded="false" id="dropdown-toggle">

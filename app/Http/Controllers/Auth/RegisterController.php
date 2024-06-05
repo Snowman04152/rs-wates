@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -48,11 +48,19 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'confirmed' => 'Password Tidak Sama'
+        ];
+        $validator =  Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ],$messages);
+        if ($validator->fails()) {
+            return redirect('/register')->back()->withErrors($validator)->withInput();
+        }
+        return $validator;
     }
 
     /**

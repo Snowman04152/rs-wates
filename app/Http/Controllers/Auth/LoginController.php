@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -51,14 +52,24 @@ class LoginController extends Controller
 
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             if (auth()->user()->level == '1') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('dashboard');
             } else {
-                return redirect()->route('user.dashboarduser');
+                return redirect()->route('dashboarduser');
             }
         } else {
             return redirect()->route('login')
                 ->with('error', 'Email dan Password salah.');
         }
 
+    }
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }
