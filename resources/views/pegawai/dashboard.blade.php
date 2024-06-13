@@ -1,4 +1,4 @@
-@extends('user.layouts.app')
+@extends('pegawai.layouts.app')
 @section('content')
     <div class="row d-grid g-0 ">
         <div class="col ">

@@ -5,8 +5,10 @@
             <div class="row p-3 justify-content-between">
                 <div class="col-9 fs-3 p-2"><b>Pemeliharaan Alat Medis</b></div>
                 <div class="col-3 fs-4 d-flex ">
-                    <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-envelope "></i></a></div>
-                    <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a>
+                    {{-- <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-envelope "></i></a></div> --}}
+                    <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span class="translate-middle badge rounded-pill bg-success">
+                        9
+                      </span>
                     </div>
                     <div class=" dropdown ms-1 mt-1 fs-5 " >
                         <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\User;
 class AlatMedisController extends Controller
 {
     /**
@@ -31,7 +31,11 @@ class AlatMedisController extends Controller
     public function data_periksa(){
         return view('admin.dataPeriksa');
     }
-    //---------------------------------------------------------------------- Function to user----------------------------------------------------------------------------------------------//
+    public function data_user(){
+        $user = User::get();
+        return view('admin.dataUser',compact('user'));
+    }
+    //---------------------------------------------------------------------- Function to Kepala BPS ----------------------------------------------------------------------------------------------//
     public function data_alat_user(){
         return view('user.dataAlatuser');
     }
@@ -48,6 +52,18 @@ class AlatMedisController extends Controller
 
     public function data_periksa_user(){
         return view('user.dataPeriksauser');
+    }
+
+    //---------------------------------------------------------------------- Function to Pegawai ----------------------------------------------------------------------------------------------//
+
+    public function data_periksa_pegawai(){
+        return view('pegawai.dataPeriksapegawai');
+    }
+
+    //---------------------------------------------------------------------- Function to Kepala Ruangan ----------------------------------------------------------------------------------------------//
+    
+    public function data_periksa_kepalaruang(){
+        return view('kepalaruang.dataPeriksakepalaruang');
     }
     public function create()
     {

@@ -19,7 +19,7 @@
 
 <body>
     <div class="wrapper">
-        @include('user.layouts.sidebar')
+        @include('pegawai.layouts.sidebar')
         
             @yield('content')
         

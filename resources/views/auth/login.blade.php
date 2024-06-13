@@ -27,9 +27,9 @@
                     <form method="post" action="{{route('login')}}">
                         @csrf
                         <div class="my-4">
-                            <input type="email" class="form-control rounded-5 @error('email') is-invalid @enderror" name="email" value="{{old ('email')}}" required autocomplete="email" autofocus id="exampleFormControlInput1"
-                                placeholder="Email">
-                                @error('email')
+                            <input type="text" class="form-control rounded-5 @error('username') is-invalid @enderror" name="username" value="{{old ('username')}}" required autocomplete="username" autofocus id="exampleFormControlInput1"
+                                placeholder="Username">
+                                @error('username')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -46,10 +46,6 @@
                         </div>
                         <div class="d-grid ">
                             <button type="submit" class="btn btn-primary my-4 rounded-5 ">Login</button>
-                            <div class="d-flex justify-content-start">
-                                <span class=" ms-2"> Don't Have an Account?</span>
-                                <a href="{{ route('register') }}" class="ms-2">Register</a>
-                            </div>
                         </div>
                     </form>
                 </div>

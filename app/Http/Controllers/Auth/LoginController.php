@@ -43,22 +43,31 @@ class LoginController extends Controller
     }
     public function login(Request $request): RedirectResponse
     {
+       
         $input = $request->all();
 
         $this->validate($request, [
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
         ]);
 
-        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+        if (auth()->attempt(array('username' => $input['username'], 'password' => $input['password']))) {
+            
             if (auth()->user()->level == '1') {
                 return redirect()->route('dashboard');
-            } else {
-                return redirect()->route('dashboarduser');
+            } else if (auth()->user()->level == '2') {
+                $namaUser = auth()->user()->username;
+                return redirect()->route('dashboarduser')->with('namaUser', $namaUser);
+            } else if (auth()->user()->level == '3') {
+                $namaUser = auth()->user()->username;
+                return redirect()->route('dashboardpegawai')->with('namaUser', $namaUser);
+            } else if (auth()->user()->level == '4') {
+                $namaUser = auth()->user()->username;
+                return redirect()->route('dashboardkepalaruang')->with('namaUser', $namaUser);
             }
         } else {
             return redirect()->route('login')
-                ->with('error', 'Email dan Password salah.');
+                ->with('error', 'Username dan Password salah.');
         }
 
     }

@@ -19,10 +19,8 @@
 
 <body>
     <div class="wrapper">
-        @include('user.layouts.sidebar')
-        
+        @include('kepalaruang.layouts.sidebar')
             @yield('content')
-        
     </div>
 
 </body>

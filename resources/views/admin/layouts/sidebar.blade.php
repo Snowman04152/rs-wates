@@ -31,7 +31,10 @@
             </ul>
         </li>
         <li>
-            <a href="{{route('data_periksa')}}"> <i class="bi bi-file-earmark-text"></i> Data Pemeriksaan </a>
+            <a href="{{route('data_periksa')}}"> <i class="bi bi-file-earmark-text"></i> Jadwal Pemeliharaan </a>
+        </li>
+        <li>
+            <a href="{{route('data_user')}}"> <i class="bi bi-person"></i> Data User </a>
         </li>
 
     </ul>

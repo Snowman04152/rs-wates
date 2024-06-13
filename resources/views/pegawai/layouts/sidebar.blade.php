@@ -8,35 +8,16 @@
     </div>
     <ul class="list-unstyled components fs-5">
         <li>
-            <a href="{{ route('dashboarduser') }}"> <i class="bi bi-house "></i> Halaman Utama </a>
+            <a href="{{ route('dashboardpegawai') }}"> <i class="bi bi-house "></i> Halaman Utama </a>
         </li>
         <li>
-            <a href="#submenu" data-bs-toggle="navigate" aria-expanded="false" id="dropdown-toggle">
-                <div class="row justify-content-between">
-                    <div class="col"><i class="bi bi-file-earmark-text"></i> Data Alat Medis</div>
-                    <div class="col-2"> <i class="bi bi-caret-down-fill "></i></div>
-
-                </div>
-            </a>
-            <ul class="collapse list-unstyled" id="submenu">
-                <li>
-                    <a href="{{ route('jenis_alat_user') }}">Jenis Alat Medis</a>
-                </li>
-                <li>
-                    <a href="{{ route('merk_alat_user') }}">Merk Alat Medis</a>
-                </li>
-                <li>
-                    <a href="{{ route('ruang_alat_user') }}">Ruang Alat Medis</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="{{route('data_periksa_user')}}"> <i class="bi bi-file-earmark-text"></i> Jadwal Pemeliharaan </a>
+            <a href="{{route('data_periksa_pegawai')}}"> <i class="bi bi-file-earmark-text"></i> Jadwal Pemeliharaan </a>
         </li>
 
     </ul>
 </nav>
 
+{{-- 
 <script type="module">
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -70,4 +51,4 @@
             dropdownToggle.setAttribute('aria-expanded', isExpanded.toString());
         });
     });
-</script>
+</script> --}}

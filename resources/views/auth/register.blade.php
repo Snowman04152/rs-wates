@@ -25,8 +25,8 @@
                 </div>
                 <div class="mx-5 p-5 text-dark">
                     <div class="my-2">
-                        <form method="POST" action="{{ route('register') }}">
-                            @csrf
+                        <form method="POST" action="{{ route('register.store') }}">
+                    @csrf
                         <input type="email" class="form-control rounded-5 @error('email') is-invalid @enderror"
                             name="email" id="exampleFormControlInput1" placeholder="Email">
                         @error('email')
@@ -55,7 +55,7 @@
                     </div>
                     <div class="my-2">
                         <input type="password" class="form-control rounded-5 @error('password') is-invalid @enderror"
-                            name="password" id="exampleFormControlInput1" placeholder="Password">
+                            name="password" id="password" placeholder="Password">
                     </div>
                     @error('password')
                     <span class="invalid-feedback" role="alert">
@@ -63,14 +63,19 @@
                     </span>
                     @enderror
                     <div class="">
-                        <input type="password" name="password_confirm" class="form-control rounded-5"
-                            id="exampleFormControlInput1" required autocomplete="new-password"
+                        <input type="password" id="password" name="password_confirmation" class="form-control @error('password') is-invalid @enderror rounded-5"
+                            required autocomplete="new-password"
                             placeholder="Konfirmasi Password">
                     </div>
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                     <div class="d-grid ">
                         <button type="submit" class="btn btn-primary my-4 rounded-5 ">Register</button>
+                    </form>
                         <div class="d-flex justify-content-start">
-                        </form>
                             <span class=" ms-2">Have an Account?</span>
                             <a href="{{ route('login') }}" class="ms-2">Login</a>
                         </div>
