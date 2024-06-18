@@ -15,16 +15,17 @@ return new class extends Migration
             $table->id()->primary();
             $table->string('nama_alat');
             $table->string('gambar_alat');
+            $table->string('gambar_alat_hash');
             $table->string('jenis_alat');
             $table->string('merk');
             $table->string('ruangan');
             $table->timestamps();
         });
 
-        Schema::create('jenis_alats', function (Blueprint $table) {
+        Schema::create('jenis', function (Blueprint $table) {
             $table->id()->primary();
             $table->string('jenis_alat');
-            $table->string('gambar_alat');
+           
             $table->timestamps();
         });
 
@@ -36,7 +37,7 @@ return new class extends Migration
 
         Schema::create('ruangs', function (Blueprint $table) {
             $table->id()->primary();
-            $table->string('merk');
+            $table->string('nama_ruang');
             $table->timestamps();
         });
 
@@ -55,7 +56,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('data_alats');
-        Schema::dropIfExists('jenis_alats');
+        Schema::dropIfExists('jenis');
         Schema::dropIfExists('merks');
         Schema::dropIfExists('ruangs');
         Schema::dropIfExists('data_periksas');

@@ -4,11 +4,12 @@
         <div class="row p-3 justify-content-between">
             <div class="col-9 fs-3 p-2"><b>Jenis Alat Medis</b></div>
             <div class="col-3 fs-4 d-flex ">
-                <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span class="translate-middle badge rounded-pill bg-success">
-                    9
-                  </span>
+                <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span
+                        class="translate-middle badge rounded-pill bg-success">
+                        9
+                    </span>
                 </div>
-                <div class=" dropdown ms-1 mt-1 fs-5 " >
+                <div class=" dropdown ms-1 mt-1 fs-5 ">
                     <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Admin
@@ -29,7 +30,7 @@
             </div>
             <div class="col-2 fs-3 p-2">
                 <button type="button" data-bs-toggle='modal' data-bs-target='#modalTambah'
-                    class="btn btn-primary border border-dark rounded-0 fs-5  fw-bold">+ Tambah</button>
+                    class="btn btn-outline-primary rounded-3 fs-5  fw-bold">+ Tambah</button>
             </div>
         </div>
         <div class="container ">
@@ -37,126 +38,91 @@
                 <thead>
                     <tr>
                         <th class="col-2">Id Alat Medis</th>
-                        <th class="col-2">Nama Alat Medis</th>
-                        <th class="col-2">Gambar Alat Medis</th>
-                        <th class="col-3">Jenis</th>
-                        <th class="col-3">Merk</th>
-                        <th class="col-3">Ruangan</th>
-                        <th class="col-3">Aksi</th>
+                        <th class="col-2">Jenis Alat Medis</th>
+                        <th class="col-2">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">01</th>
-                        <td>Suction Pump</td>
-                        <td><img src="{{ Vite::asset('resources/images/rswates.jpg') }}" class="img-fluid w-50"
-                                alt=""></td>
-                        <td>7E-A</td>
-                        <td>General</td>
-                        <td>ICU</td>
-                        <td>
-                            <div class="d-flex justify-content-center ">
-                                <button type="button" data-bs-toggle='modal' data-bs-target='#modalEdit'
-                                    class="btn btn-success me-2">Edit</button>
-                                <button type="button" class="btn btn-danger">Hapus</button>
-                            </div>
-                        </td>
-                    </tr>
-
+                    @foreach ($jenis as $nama_jenis)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $nama_jenis->jenis_alat }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center ">
+                                    <button type="button" data-bs-toggle='modal' data-bs-target='#modalEdit' data-jenis_id='{{ $nama_jenis->id }}'
+                                        data-nama_jenis="{{ $nama_jenis->jenis_alat }}" 
+                                        class="btn btn-outline-primary me-2 edit-jenis">Edit</button>
+                                        <form action="{{ route('jenis.delete', ['id' => $nama_jenis->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-outline-danger me-2">Hapus</button>
+    
+                                        </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
-        </div>
-    </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Form Edit Data Alat Medis</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" >
-                        <div>
-                            <div>
-                                <label for="namaAlat" class="form-label">Nama Alat Medis :</label>
-                                <input type="text" class="form-control" id="namaAlat" placeholder="Isi Nama Alat">
-                            </div>
-                            <div >
-                                <label for="gambarAlat" class="form-label mt-1 ">Gambar Alat Medis :</label>
-                                <input type="file" class="form-control" id="gambarAlat" placeholder="Input Gambar Alat">
-                            </div>
-                            <div>
-                                <label for="jenisAlat" class="form-label mt-1">Jenis :</label>
-                                <input type="text" class="form-control" id="jenisAlat" placeholder="Isi Jenis Alat">
-                                
-                            </div>
-                            <div>
-                                <label for="merkAlat" class="form-label mt-1">Merk :</label>
-                                <input type="text" class="form-control" id="merkAlat" placeholder="Isi Merk Alat">
-                            </div>
-                            <div>
-                                <label for="ruanganAlat" class="form-label mt-1">Ruangan :</label>
-                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
-                                    <option selected>Pilih Ruangan</option>
-                                    <option value="1">ICU</option>
-                                    <option value="2">UGD</option>
-                                    <option value="3">Umum</option>
-                                  </select>
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
         </div>
     </div>
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Form Tambah Data Alat Medis</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Form Edit Ruang Alat Medis</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" >
+                    <form method="POST" action="{{ route('jenis.add') }}">
+                        @csrf
                         <div>
                             <div>
-                                <label for="namaAlat" class="form-label">Nama Alat Medis :</label>
-                                <input type="text" class="form-control" id="namaAlat" placeholder="Isi Nama Alat">
+                                <label for="namaAlat" class="form-label">Jenis Alat Medis :</label>
+                                <input type="text" value="{{ old('jenis_alat') }}"name='jenis_alat'
+                                    class="form-control @error('jenis_alat') is-invalid @enderror" id="jenis_alat"
+                                    placeholder="Isi Jenis">
+                                @error('jenis_alat')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                            <div >
-                                <label for="gambarAlat" class="form-label mt-1 ">Gambar Alat Medis :</label>
-                                <input type="file" class="form-control" id="gambarAlat" placeholder="Input Gambar Alat">
-                            </div>
-                            <div>
-                                <label for="jenisAlat" class="form-label mt-1">Jenis :</label>
-                                <input type="text" class="form-control" id="jenisAlat" placeholder="Isi Jenis Alat">
-                                
-                            </div>
-                            <div>
-                                <label for="merkAlat" class="form-label mt-1">Merk :</label>
-                                <input type="text" class="form-control" id="merkAlat" placeholder="Isi Merk Alat">
-                            </div>
-                            <div>
-                                <label for="ruanganAlat" class="form-label mt-1">Ruangan :</label>
-                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
-                                    <option selected>Pilih Ruangan</option>
-                                    <option value="1">ICU</option>
-                                    <option value="2">UGD</option>
-                                    <option value="3">Umum</option>
-                                  </select>
-                            </div>
-
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Form Edit Jenis Alat Medis</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" id="edit-jenis" action="">
+                        @csrf
+                        @method('put')
+                        <div>
+                            <input type="hidden" value="{{ $nama_jenis->id }}" name="id" id="edit_jenis_id">
+                            <div>
+                                <label for="jenis_alat" class="form-label">Nama Jenis Alat Medis :</label>
+                                <input type="text" class="form-control" value="{{ $nama_jenis->jenis_alat }}"
+                                    name="jenis_alat" id="nama_jenis_alat" placeholder="Isi Jenis Alat">
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -168,6 +134,19 @@
         window.onload = modaledit.show();
     </script> --}}
     <script type="module">
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.edit-jenis')) {
+                var JenisId = event.target.dataset.jenis_id;
+                var namaJenis = event.target.dataset.nama_jenis;
+
+                var editJenisForm = document.getElementById('edit-jenis');
+                var jenisIdInput = document.getElementById('edit_jenis_id');
+                var namaJenisInput = document.getElementById('nama_jenis_alat')
+                jenisIdInput.value = JenisId;
+                namaJenisInput.value = namaJenis;
+                editJenisForm.action = '/jenisalat/edit/' + JenisId;
+            }
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownToggle = document.getElementById('dropdown-toggle');
 

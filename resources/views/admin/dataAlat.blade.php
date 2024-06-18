@@ -4,11 +4,12 @@
         <div class="row p-3 justify-content-between">
             <div class="col-9 fs-3 p-2"><b>Data Alat Medis</b></div>
             <div class="col-3 fs-4 d-flex ">
-                <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span class="translate-middle badge rounded-pill bg-success">
-                    9
-                  </span>
+                <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span
+                        class="translate-middle badge rounded-pill bg-success">
+                        9
+                    </span>
                 </div>
-                <div class=" dropdown ms-1 mt-1 fs-5 " >
+                <div class=" dropdown ms-1 mt-1 fs-5 ">
                     <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Admin
@@ -29,7 +30,7 @@
             </div>
             <div class="col-2 fs-3 p-2">
                 <button type="button" data-bs-toggle='modal' data-bs-target='#modalTambah'
-                    class="btn btn-primary border border-dark rounded-0 fs-5  fw-bold">+ Tambah</button>
+                    class="btn btn-outline-primary rounded-3">+ Tambah</button>
             </div>
         </div>
         <div class="container ">
@@ -87,12 +88,22 @@
                             </div>
                             <div>
                                 <label for="jenisAlat" class="form-label mt-1">Jenis :</label>
-                                <input type="text" class="form-control" id="jenisAlat" placeholder="Isi Jenis Alat">
+                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                    <option selected>Pilih Jenis :</option>
+                                    <option value="1">ICU</option>
+                                    <option value="2">UGD</option>
+                                    <option value="3">Umum</option>
+                                </select>
 
                             </div>
                             <div>
                                 <label for="merkAlat" class="form-label mt-1">Merk :</label>
-                                <input type="text" class="form-control" id="merkAlat" placeholder="Isi Merk Alat">
+                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                    <option selected>Pilih Merk</option>
+                                    <option value="1">ICU</option>
+                                    <option value="2">UGD</option>
+                                    <option value="3">Umum</option>
+                                </select>
                             </div>
                             <div>
                                 <label for="ruanganAlat" class="form-label mt-1">Ruangan :</label>
@@ -122,42 +133,57 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form method="POST" action="{{route('data.add')}}">
+                        @csrf
                         <div>
                             <div>
                                 <label for="namaAlat" class="form-label">Nama Alat Medis :</label>
-                                <input type="text" class="form-control" id="namaAlat" placeholder="Isi Nama Alat">
+                                <input type="text" class="form-control" id="namaAlat" name="nama_alat" placeholder="Isi Nama Alat">
                             </div>
                             <div>
                                 <label for="gambarAlat" class="form-label mt-1 ">Gambar Alat Medis :</label>
-                                <input type="file" class="form-control" id="gambarAlat"
+                                <input type="file" class="form-control" id="gambarAlat" enctype="multipart/form-data"
+                                name="gambar_alat"
                                     placeholder="Input Gambar Alat">
+                                    
                             </div>
                             <div>
                                 <label for="jenisAlat" class="form-label mt-1">Jenis :</label>
-                                <input type="text" class="form-control" id="jenisAlat" placeholder="Isi Jenis Alat">
+                                <select class="form-select" id="ruanganAlat" name="jenis_alat" aria-label="Default select example">
+                                    <option selected>Pilih Jenis </option>
+                                    @foreach ($jenis as $nama_jenis)
+                                        <option value="{{ $nama_jenis->jenis_alat }}">{{ $nama_jenis->jenis_alat }}
+                                            
+                                        </option>
+                                    @endforeach
+                                </select>
 
                             </div>
                             <div>
                                 <label for="merkAlat" class="form-label mt-1">Merk :</label>
-                                <input type="text" class="form-control" id="merkAlat" placeholder="Isi Merk Alat">
+                                <select class="form-select" id="ruanganAlat" name="merk_alat" aria-label="Default select example">
+                                    <option selected>Pilih Merk</option>
+                                    @foreach ($merk as $merks)
+                                        <option value="{{ $merks->merk }}">{{ $merks->merk }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div>
                                 <label for="ruanganAlat" class="form-label mt-1">Ruangan :</label>
-                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                <select class="form-select" name="ruang_alat" id="ruanganAlat" aria-label="Default select example">
                                     <option selected>Pilih Ruangan</option>
-                                    <option value="1">ICU</option>
-                                    <option value="2">UGD</option>
-                                    <option value="3">Umum</option>
+                                    @foreach ($ruang as $ruangs)
+                                        <option value="{{ $ruangs->nama_ruang }}">{{ $ruangs->nama_ruang }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

@@ -64,16 +64,42 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit',true);
         }
-
-
-  
         $user = User::find($id);
         $user->username = $request->username;
         $user->number = $request->telepon;
         $user->level = $request->jabatan;
         $user->save();
         return redirect()->route('data_user');
+    }
 
+    public function resetPassword(Request $request , string $id){
+
+        $messages = [
+            'required' => ':Attribute harus diisi.',
+            'confirmed' => 'Password Tidak Sama'
+        ];
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|confirmed'
+            
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalReset',true);
+        }
+
+        $user = User::find($id);
+        $user->password = $request->password;
+        $user->save();
+        
+        return redirect()->route('data_user');
+    }
+    public function deleteUser(Request $request, string $id){
+        
+        $deletedUser = User::find($id);
+        if ($deletedUser) {
+            $deletedUser->delete();
+        }
+
+        return redirect()->route('data_user');
 
     }
     /**

@@ -64,15 +64,22 @@
                                 <div class="d-flex justify-content-center ">
                                     <button type="button" data-bs-toggle='modal' data-bs-target='#modalEdit'
                                         class="btn btn-outline-primary me-2 edit-user" data-users_id="{{ $users->id }}"
-                                        data-username="{{ $users->username }}"
-                                        data-number="{{ $users->number }}"
+                                        data-username="{{ $users->username }}" data-number="{{ $users->number }}"
                                         data-level="{{ $users->level }}">Edit</button>
-                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                    <form id="nested-form" action="{{ route('user.delete', ['id' => $users->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-outline-danger me-2">Hapus</button>
+
+                                    </form>
                                 </div>
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center ">
-                                    <button type="button" class="btn btn-outline-danger">Reset Password</button>
+                                    <button type="button" class="btn btn-outline-danger data-reset" data-users_id='{{$users->id}}'
+                                         data-bs-toggle='modal'
+                                        data-bs-target='#modalReset'>Reset Password</button>
                                 </div>
                             </td>
                         </tr>
@@ -90,29 +97,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="" id="edit-user-form"> 
+                    <form method="POST" action="" id="edit-user-form">
                         @csrf
                         @method('put')
                         <div>
-                            <input type="hidden" value="{{$users->id}}" name="id" id="edit_user_id">
+                            <input type="hidden" value="{{ $users->id }}" name="id" id="edit_user_id">
                             <div>
                                 <label for="username" class="form-label">Username :</label>
-                                <input type="text" class="form-control" value="{{$users->username}}" name="username" id="edit_user_username" placeholder="Isi Username">
+                                <input type="text" class="form-control" value="{{ $users->username }}" name="username"
+                                    id="edit_user_username" placeholder="Isi Username">
                             </div>
                             <div>
                                 <label for="telepon" class="form-label">Telepon :</label>
-                                <input type="number" value="{{$users->number}}" class="form-control" name="telepon" id="edit_user_telepon"
-                                    placeholder="Isi Telepon">
+                                <input type="number" value="{{ $users->number }}" class="form-control" name="telepon"
+                                    id="edit_user_telepon" placeholder="Isi Telepon">
                             </div>
                             <div>
                                 <label for="ruanganAlat" class="form-label mt-1">Jabatan :</label>
-                                <select class="form-select" value='{{$users->level}}' id="edit_user_level" name="jabatan"
-                                    aria-label="Default select example">
+                                <select class="form-select" value='{{ $users->level }}' id="edit_user_level"
+                                    name="jabatan" aria-label="Default select example">
                                     <option disabled selected>Pilih Jabatan</option>
                                     <option value="1" {{ $users->level == '1' ? 'selected' : '' }}>Admin</option>
-                                    <option value="2" {{ $users->level == '2' ? 'selected' : '' }}>Kepala BPS</option>
+                                    <option value="2" {{ $users->level == '2' ? 'selected' : '' }}>Kepala BPS
+                                    </option>
                                     <option value="3" {{ $users->level == '3' ? 'selected' : '' }}>Pegawai</option>
-                                    <option value="4" {{ $users->level == '4' ? 'selected' : '' }}>Kepala Ruangan</option>
+                                    <option value="4" {{ $users->level == '4' ? 'selected' : '' }}>Kepala Ruangan
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -164,11 +174,13 @@
                                     value="{{ old('jabatan') }}" name="jabatan" id="ruanganAlat"
                                     aria-label="Default select example">
                                     <option disabled selected>Pilih Jabatan</option>
-                                    <option value="1" {{ "1" === old('jabatan') ? 'selected' : '' }}>Admin</option>
-                                    <option value="2" {{ "2" === old('jabatan') ? 'selected' : '' }}>Kepala BPS</option>
-                                    <option value="3" {{ "3" === old('jabatan') ? 'selected' : '' }}>Pegawai</option>
-                                    <option value="4" {{ "4" === old('jabatan') ? 'selected' : '' }}>Kepala Ruangan</option>
-                                    
+                                    <option value="1" {{ '1' === old('jabatan') ? 'selected' : '' }}>Admin</option>
+                                    <option value="2" {{ '2' === old('jabatan') ? 'selected' : '' }}>Kepala BPS
+                                    </option>
+                                    <option value="3" {{ '3' === old('jabatan') ? 'selected' : '' }}>Pegawai</option>
+                                    <option value="4" {{ '4' === old('jabatan') ? 'selected' : '' }}>Kepala Ruangan
+                                    </option>
+
                                 </select>
                                 @error('jabatan')
                                     <span class="invalid-feedback" role="alert">
@@ -202,6 +214,51 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalReset" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Form Reset Password User</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reset-password" method="POST" action="">
+                        @csrf
+                        @method('put')
+                        <div>
+                            <div>
+                                <input type="text" hidden value="{{ $users->id }}" name="id" id="reset_user_id">
+                                <label for="password" class="form-label">Password :</label>
+                                <input name="password" type="password"
+                                    class="form-control @error('password') is-invalid @enderror" id="password"
+                                    placeholder="Isi password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div>
+                                <label for="password" class="form-label">Konfirmasi Password :</label>
+                                <input name="password_confirmation" type="password"
+                                    class="form-control @error('password') is-invalid @enderror" id="password"
+                                    placeholder="Konfirmasi Password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     {{-- <script type="module">
         const modaledit = new bootstrap.Modal('#modal-add-alamat', {
             keyboard: false
@@ -210,31 +267,38 @@
     </script> --}}
     <script type="module">
         document.addEventListener('click', function(event) {
-        if (event.target.matches('.edit-user')) {
-            var userId = event.target.dataset.users_id;
-            var username = event.target.dataset.username;
-            var number = event.target.dataset.number;
-            var level = event.target.dataset.level;
+            if (event.target.matches('.edit-user')) {
+                var userId = event.target.dataset.users_id;
+                var username = event.target.dataset.username;
+                var number = event.target.dataset.number;
+                var level = event.target.dataset.level;
 
-            var editUserForm = document.getElementById('edit-user-form');
-            var userIdInput = document.getElementById('edit_user_id');
-            var usernameInput = document.getElementById('edit_user_username');
-            var numberInput = document.getElementById('edit_user_telepon');
-            var levelInput = document.getElementById('edit_user_level');
-            
-            
-            userIdInput.value = userId;
-            numberInput.value = number;
-            usernameInput.value = username;
-            levelInput.value = level;
-            editUserForm.action = '/datauser/edit/' + userId;
+                var editUserForm = document.getElementById('edit-user-form');
+                var userIdInput = document.getElementById('edit_user_id');
+                var usernameInput = document.getElementById('edit_user_username');
+                var numberInput = document.getElementById('edit_user_telepon');
+                var levelInput = document.getElementById('edit_user_level');
 
 
-            // var modal = document.getElementById('edit-user-modal');
-            // var bootstrapModal = new bootstrap.Modal(modal);
-            // bootstrapModal.show();
-        }
-    });
+                userIdInput.value = userId;
+                numberInput.value = number;
+                usernameInput.value = username;
+                levelInput.value = level;
+                editUserForm.action = '/datauser/edit/' + userId;
+
+
+                // var modal = document.getElementById('edit-user-modal');
+                // var bootstrapModal = new bootstrap.Modal(modal);
+                // bootstrapModal.show();
+            }
+            if(event.target.matches('.data-reset')){
+                var userId = event.target.dataset.users_id;
+                var resetPasswordForm = document.getElementById('reset-password');
+                var userIdInput = document.getElementById('reset_user_id');
+                userIdInput.value = userId ;
+                resetPasswordForm.action = '/datauser/reset/' + userId ;
+            }
+        });
         @if (session('showModalTambah'))
             const modaledit = new bootstrap.Modal('#modalTambah', {
                 keyboard: false
@@ -243,6 +307,12 @@
         @endif
         @if (session('showModalEdit'))
             const modaledit = new bootstrap.Modal('#modalEdit', {
+                keyboard: false
+            })
+            window.onload = modaledit.show();
+        @endif
+        @if (session('showModalReset'))
+            const modaledit = new bootstrap.Modal('#modalReset', {
                 keyboard: false
             })
             window.onload = modaledit.show();

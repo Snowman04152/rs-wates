@@ -21,13 +21,36 @@ Route::middleware(['auth', 'checkrole:1'])->group(function () {
         return view('admin/dashboard');
     })->name('dashboard');
     Route::get('/dataalat', [AlatMedisController::class, 'data_alat'])->name('data_alat');
+    Route::post('/dataalat', [AlatMedisController::class, 'CreateDataalat'])->name('data.add');
     Route::get('/jenisalat', [AlatMedisController::class, 'jenis_alat'])->name('jenis_alat');
+    Route::post('/jenisalat', [AlatMedisController::class, 'createJenis'])->name('jenis.add');
+    Route::put('/jenisalat/edit/{id}', [AlatMedisController::class, 'editJenis'])->name('jenis.edit');
+    Route::delete('/jenisalat/{id}', [AlatMedisController::class, 'deleteJenis'])->name('jenis.delete');
     Route::get('/merkalat', [AlatMedisController::class, 'merk_alat'])->name('merk_alat');
+    Route::post('/merkalat', [AlatMedisController::class, 'createMerk'])->name('merk.add');
+    Route::put('/merkalat/edit/{id}', [AlatMedisController::class, 'editMerk'])->name('merk.edit');
+    Route::delete('/merkalat/{id}', [AlatMedisController::class, 'deleteMerk'])->name('merk.delete');
     Route::get('/ruangalat', [AlatMedisController::class, 'ruang_alat'])->name('ruang_alat');
+    Route::post('/ruangalat', [AlatMedisController::class, 'createRuangan'])->name('ruang.add');
+    Route::put('/ruangalat/edit/{id}', [AlatMedisController::class, 'editRuangan'])->name('ruang.edit');
+    Route::delete('/ruangalat/{id}', [AlatMedisController::class, 'deleteRuang'])->name('ruang.delete');
     Route::get('/dataperiksa', [AlatMedisController::class, 'data_periksa'])->name('data_periksa');
     Route::get('/datauser', [AlatMedisController::class, 'data_user'])->name('data_user');
     Route::post('/datauser', [AuthController::class, 'createUser'])->name('user.add');
     Route::put('/datauser/edit/{id}', [AuthController::class, 'editUser'])->name('user.edit');
+    Route::delete('/datauser/{id}', [AuthController::class, 'deleteuser'])->name('user.delete');
+    Route::put('/datauser/reset/{id}', [AuthController::class, 'ResetPassword'])->name('reset.password');
+    Route::get('/public-disk', function () {
+        Storage::disk('public');
+        Route::get('/retrieve-public-file', function () {
+            if (Storage::disk('public')) {
+                $contents = Storage::disk('public');
+            } else {
+                $contents = 'File does not exist';
+            }
+            return $contents;
+        });
+    });
 });
 Route::middleware(['auth', 'checkrole:2 '])->group(function () {
     Route::get('/dashboarduser', function () {
