@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ruang;
 use App\Models\Jenis;
 use App\Models\Merk;
 use App\Models\DataAlat;
+
 class AlatMedisController extends Controller
 {
     /**
@@ -18,14 +21,63 @@ class AlatMedisController extends Controller
         //
     }
     //Function to admin//
-    public function data_alat(){
+    public function data_alat()
+    {
         $jenis = Jenis::get();
         $merk = Merk::get();
         $ruang = Ruang::get();
-        return view('admin.dataAlat',compact('jenis','merk','ruang'));
+        $data_alat = DataAlat::get();
+        return view('admin.dataAlat', compact('data_alat', 'jenis', 'merk', 'ruang'));
+    }
+    public function editDataalat(Request $request, string $id)
+    {
+        $messages = [
+            'required' => ':Attribute harus diisi.'
+        ];
+        $validator = Validator::make($request->all(), [
+            'jenis_alat_medis' => 'required',
+            'nama_alat_medis' => 'required',
+            'merk_alat_medis' => 'required',
+            'ruang_alat_medis' => 'required'
+
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
+        }
+        $file = $request->file('gambar_alat_medis');
+
+        if ($file != null) {
+            $originalFilename = $file->getClientOriginalName();
+            $encryptedFilename = $file->hashName();
+            $file->store('public/files');
+        }
+
+        $data =  DataAlat::find($id);
+        $data->nama_alat = $request->nama_alat_medis;
+        $data->jenis_alat = $request->jenis_alat_medis;
+        $data->merk = $request->merk_alat_medis;
+        $data->ruangan = $request->ruang_alat_medis;
+        
+        if ($file != null) {
+            $data->gambar_alat = $originalFilename;
+            $data->gambar_alat_hash = $encryptedFilename;
+        }
+        $data->save();
+        return redirect()->route('data_alat');
+
     }
 
-    public function createDataalat(Request $request){
+    public function deleteDataalat(Request $request , string $id){
+
+        $deleteddata = DataAlat::find($id);
+        if ($deleteddata) {
+            $deleteddata->delete();
+        }
+
+        return redirect()->route('data_alat');
+    }
+    public function createDataalat(Request $request)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
@@ -35,12 +87,13 @@ class AlatMedisController extends Controller
             'gambar_alat' => 'required',
             'merk_alat' => 'required',
             'ruang_alat' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah', true);
         }
         $file = $request->file('gambar_alat');
+
         if ($file != null) {
             $originalFilename = $file->getClientOriginalName();
             $encryptedFilename = $file->hashName();
@@ -57,34 +110,37 @@ class AlatMedisController extends Controller
             $data->gambar_alat_hash = $encryptedFilename;
         }
         $data->save();
-        return redirect()->route('dataalat');
+        return redirect()->route('data_alat');
 
     }
-    public function jenis_alat(){
+    public function jenis_alat()
+    {
         $jenis = Jenis::get();
-        return view('admin.jenisAlat',compact('jenis'));
+        return view('admin.jenisAlat', compact('jenis'));
     }
-    public function createJenis(Request $request){
+    public function createJenis(Request $request)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
         $validator = Validator::make($request->all(), [
             'jenis_alat' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah', true);
         }
 
-        
+
         $jenis = new Jenis;
         $jenis->jenis_alat = $request->jenis_alat;
-        
+
         $jenis->save();
         return redirect()->route('jenis_alat');
     }
-    public function deleteJenis(Request $request, string $id){
-        
+    public function deleteJenis(Request $request, string $id)
+    {
+
         $deletedjenis = Jenis::find($id);
         if ($deletedjenis) {
             $deletedjenis->delete();
@@ -93,16 +149,17 @@ class AlatMedisController extends Controller
         return redirect()->route('jenis_alat');
 
     }
-    public function editJenis(Request $request , string $id){
+    public function editJenis(Request $request, string $id)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
         $validator = Validator::make($request->all(), [
             'jenis_alat' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
         }
 
         $jenis = Jenis::find($id);
@@ -110,31 +167,34 @@ class AlatMedisController extends Controller
         $jenis->save();
         return redirect()->route('jenis_alat');
     }
-    public function merk_alat(){
+    public function merk_alat()
+    {
         $merk = Merk::get();
         return view('admin.merkAlat', compact('merk'));
     }
-    public function createMerk(Request $request){
+    public function createMerk(Request $request)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
         $validator = Validator::make($request->all(), [
             'nama_merk' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah', true);
         }
 
         // ELOQUENT
         $merk = new Merk;
         $merk->merk = $request->nama_merk;
-        
+
         $merk->save();
         return redirect()->route('merk_alat');
     }
-    public function deleteMerk(Request $request, string $id){
-        
+    public function deleteMerk(Request $request, string $id)
+    {
+
         $deletedmerk = Merk::find($id);
         if ($deletedmerk) {
             $deletedmerk->delete();
@@ -143,16 +203,17 @@ class AlatMedisController extends Controller
         return redirect()->route('merk_alat');
 
     }
-    public function editMerk(Request $request , string $id){
+    public function editMerk(Request $request, string $id)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
         $validator = Validator::make($request->all(), [
             'merk' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
         }
 
         $merk = Merk::find($id);
@@ -160,39 +221,44 @@ class AlatMedisController extends Controller
         $merk->save();
         return redirect()->route('merk_alat');
     }
-    public function ruang_alat(){
+    public function ruang_alat()
+    {
         $ruang = Ruang::get();
-        return view('admin.ruangAlat',compact('ruang'));
+        return view('admin.ruangAlat', compact('ruang'));
     }
 
-    public function data_periksa(){
+    public function data_periksa()
+    {
         return view('admin.dataPeriksa');
     }
-    public function data_user(){
+    public function data_user()
+    {
         $user = User::get();
-        return view('admin.dataUser',compact('user'));
+        return view('admin.dataUser', compact('user'));
     }
-    public function createRuangan(Request $request){
+    public function createRuangan(Request $request)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
         $validator = Validator::make($request->all(), [
             'namaRuang' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah', true);
         }
 
         // ELOQUENT
         $ruang = new Ruang;
         $ruang->nama_ruang = $request->namaRuang;
-        
+
         $ruang->save();
         return redirect()->route('ruang_alat');
     }
-    public function deleteRuang(Request $request, string $id){
-        
+    public function deleteRuang(Request $request, string $id)
+    {
+
         $deletedruang = Ruang::find($id);
         if ($deletedruang) {
             $deletedruang->delete();
@@ -201,16 +267,17 @@ class AlatMedisController extends Controller
         return redirect()->route('ruang_alat');
 
     }
-    public function editRuangan(Request $request , string $id){
+    public function editRuangan(Request $request, string $id)
+    {
         $messages = [
             'required' => ':Attribute harus diisi.'
         ];
         $validator = Validator::make($request->all(), [
             'nama_ruang' => 'required'
-            
+
         ], $messages);
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit',true);
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
         }
 
         $ruang = Ruang::find($id);
@@ -220,37 +287,44 @@ class AlatMedisController extends Controller
     }
 
     //---------------------------------------------------------------------- Function to Kepala BPS ----------------------------------------------------------------------------------------------//
-    public function data_alat_user(){
+    public function data_alat_user()
+    {
         return view('user.dataAlatuser');
     }
 
-    public function jenis_alat_user(){
+    public function jenis_alat_user()
+    {
         return view('user.jenisAlatuser');
     }
-    public function merk_alat_user(){
+    public function merk_alat_user()
+    {
         return view('user.merkAlatuser');
     }
-    public function ruang_alat_user(){
+    public function ruang_alat_user()
+    {
         return view('user.ruangAlatuser');
     }
 
-    public function data_periksa_user(){
+    public function data_periksa_user()
+    {
         return view('user.dataPeriksauser');
     }
 
     //---------------------------------------------------------------------- Function to Pegawai ----------------------------------------------------------------------------------------------//
 
-    public function data_periksa_pegawai(){
+    public function data_periksa_pegawai()
+    {
         return view('pegawai.dataPeriksapegawai');
     }
 
     //---------------------------------------------------------------------- Function to Kepala Ruangan ----------------------------------------------------------------------------------------------//
-    
-    public function data_periksa_kepalaruang(){
+
+    public function data_periksa_kepalaruang()
+    {
         return view('kepalaruang.dataPeriksakepalaruang');
     }
 
-        public function create()
+    public function create()
     {
         //
     }

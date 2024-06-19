@@ -22,6 +22,8 @@ Route::middleware(['auth', 'checkrole:1'])->group(function () {
     })->name('dashboard');
     Route::get('/dataalat', [AlatMedisController::class, 'data_alat'])->name('data_alat');
     Route::post('/dataalat', [AlatMedisController::class, 'CreateDataalat'])->name('data.add');
+    Route::put('/dataalat/edit/{id}', [AlatMedisController::class, 'editDataalat'])->name('data.edit');
+    Route::delete('/dataalat/{id}', [AlatMedisController::class, 'deleteDataalat'])->name('data.delete');
     Route::get('/jenisalat', [AlatMedisController::class, 'jenis_alat'])->name('jenis_alat');
     Route::post('/jenisalat', [AlatMedisController::class, 'createJenis'])->name('jenis.add');
     Route::put('/jenisalat/edit/{id}', [AlatMedisController::class, 'editJenis'])->name('jenis.edit');

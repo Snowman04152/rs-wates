@@ -47,23 +47,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">01</th>
-                        <td>Suction Pump</td>
-                        <td><img src="{{ Vite::asset('resources/images/rswates.jpg') }}" class="img-fluid w-50"
-                                alt=""></td>
-                        <td>7E-A</td>
-                        <td>General</td>
-                        <td>ICU</td>
-                        <td>
-                            <div class="d-flex justify-content-center ">
-                                <button type="button" data-bs-toggle='modal' data-bs-target='#modalEdit'
-                                    class="btn btn-success me-2">Edit</button>
-                                <button type="button" class="btn btn-danger">Hapus</button>
-                            </div>
-                        </td>
-                    </tr>
-
+                    @foreach ($data_alat as $data)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $data->nama_alat }}</td>
+                            <td><img src="{{ asset('storage/files/' . $data->gambar_alat_hash) }}" class="img-fluid w-50"
+                                    alt=""></td>
+                            <td>{{ $data->jenis_alat }}</td>
+                            <td>{{ $data->merk }}</td>
+                            <td>{{ $data->ruangan }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center ">
+                                    <button type="button" data-bs-toggle='modal' data-id_alat="{{ $data->id }}"
+                                        data-nama_alat="{{ $data->nama_alat }}" data-gambar_alat="{{ $data->gambar_alat }}"
+                                        data-ruangan_alat="{{ $data->ruangan }}" data-merk_alat="{{ $data->merk }}"
+                                        data-jenis_alat="{{ $data->jenis_alat }}"
+                                        data-gambar_hash="{{ $data->gambar_alat_hash }}" data-bs-target='#modalEdit'
+                                        class="btn btn-outline-primary me-2 edit-alat-medis">Edit</button>
+                                        <form id="nested-form" action="{{ route('data.delete', ['id' => $data->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-outline-danger me-2">Hapus</button>
+    
+                                        </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -76,51 +87,66 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form method="POST" id="edit-alat-form" enctype="multipart/form-data" action="">
+                        @csrf
+                        @method('put')
                         <div>
                             <div>
+                                <input type="hidden" id="edit_alat_id" value="{{ $data->id }}">
                                 <label for="namaAlat" class="form-label">Nama Alat Medis :</label>
-                                <input type="text" class="form-control" id="namaAlat" placeholder="Isi Nama Alat">
+                                <input type="text" name="nama_alat_medis" value="{{ $data->nama_alat }}"
+                                    class="form-control" id="edit_alat_medis" placeholder="Isi Nama Alat">
                             </div>
                             <div>
                                 <label for="gambarAlat" class="form-label mt-1 ">Gambar Alat Medis :</label>
-                                <input type="file" class="form-control" id="gambarAlat" placeholder="Input Gambar Alat">
+                                <div class="mb-3">
+                                    <img id="imagesrc" src="{{ asset('storage/files/' . $data->gambar_alat_hash) }}"
+                                        class="img-fluid border border-dark w-25" alt="">
+                                </div>
+                                <input type="file" class="form-control" name="gambar_alat_medis" id="edit_gambar_alat"
+                                    value="{{ $data->gambar_alat }}" placeholder="Input Gambar Alat">
                             </div>
                             <div>
                                 <label for="jenisAlat" class="form-label mt-1">Jenis :</label>
-                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                <select class="form-select" id="edit_jenis_alat" name="jenis_alat_medis" aria-label="Default select example">
                                     <option selected>Pilih Jenis :</option>
-                                    <option value="1">ICU</option>
-                                    <option value="2">UGD</option>
-                                    <option value="3">Umum</option>
+                                    @foreach ($jenis as $nama_jenis)
+                                        <option value="{{ $nama_jenis->jenis_alat }}"
+                                            {{ $data->jenis_alat == $nama_jenis->jenis_alat ? 'selected' : '' }}>
+                                            {{ $nama_jenis->jenis_alat }}</option>
+                                    @endforeach
                                 </select>
 
                             </div>
                             <div>
                                 <label for="merkAlat" class="form-label mt-1">Merk :</label>
-                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                <select class="form-select" name="merk_alat_medis" id="edit_merk_alat" aria-label="Default select example">
                                     <option selected>Pilih Merk</option>
-                                    <option value="1">ICU</option>
-                                    <option value="2">UGD</option>
-                                    <option value="3">Umum</option>
+                                    @foreach ($merk as $merks)
+                                        <option value="{{ $merks->merk }}"
+                                            {{ $data->merk == $merks->merk ? 'selected' : '' }}>
+                                            {{ $merks->merk }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div>
                                 <label for="ruanganAlat" class="form-label mt-1">Ruangan :</label>
-                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                <select class="form-select" id="edit_ruangan_alat" name="ruang_alat_medis" aria-label="Default select example">
                                     <option selected>Pilih Ruangan</option>
-                                    <option value="1">ICU</option>
-                                    <option value="2">UGD</option>
-                                    <option value="3">Umum</option>
+                                    @foreach ($ruang as $ruangs)
+                                        <option value="{{ $ruangs->nama_ruang }}"
+                                            {{ $data->ruangan == $ruangs->nama_ruang ? 'selected' : '' }}>
+                                            {{ $ruangs->nama_ruang }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -133,27 +159,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{route('data.add')}}">
+                    <form method="POST" action="{{ route('data.add') }}" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <div>
                                 <label for="namaAlat" class="form-label">Nama Alat Medis :</label>
-                                <input type="text" class="form-control" id="namaAlat" name="nama_alat" placeholder="Isi Nama Alat">
+                                <input type="text" class="form-control" id="namaAlat" name="nama_alat"
+                                    placeholder="Isi Nama Alat">
                             </div>
                             <div>
                                 <label for="gambarAlat" class="form-label mt-1 ">Gambar Alat Medis :</label>
-                                <input type="file" class="form-control" id="gambarAlat" enctype="multipart/form-data"
-                                name="gambar_alat"
+                                <input type="file" class="form-control" id="gambarAlat" name="gambar_alat"
                                     placeholder="Input Gambar Alat">
-                                    
+
                             </div>
                             <div>
                                 <label for="jenisAlat" class="form-label mt-1">Jenis :</label>
-                                <select class="form-select" id="ruanganAlat" name="jenis_alat" aria-label="Default select example">
+                                <select class="form-select" id="ruanganAlat" name="jenis_alat"
+                                    aria-label="Default select example">
                                     <option selected>Pilih Jenis </option>
                                     @foreach ($jenis as $nama_jenis)
                                         <option value="{{ $nama_jenis->jenis_alat }}">{{ $nama_jenis->jenis_alat }}
-                                            
+
                                         </option>
                                     @endforeach
                                 </select>
@@ -161,7 +188,8 @@
                             </div>
                             <div>
                                 <label for="merkAlat" class="form-label mt-1">Merk :</label>
-                                <select class="form-select" id="ruanganAlat" name="merk_alat" aria-label="Default select example">
+                                <select class="form-select" id="ruanganAlat" name="merk_alat"
+                                    aria-label="Default select example">
                                     <option selected>Pilih Merk</option>
                                     @foreach ($merk as $merks)
                                         <option value="{{ $merks->merk }}">{{ $merks->merk }}</option>
@@ -170,7 +198,8 @@
                             </div>
                             <div>
                                 <label for="ruanganAlat" class="form-label mt-1">Ruangan :</label>
-                                <select class="form-select" name="ruang_alat" id="ruanganAlat" aria-label="Default select example">
+                                <select class="form-select" name="ruang_alat" id="ruanganAlat"
+                                    aria-label="Default select example">
                                     <option selected>Pilih Ruangan</option>
                                     @foreach ($ruang as $ruangs)
                                         <option value="{{ $ruangs->nama_ruang }}">{{ $ruangs->nama_ruang }}</option>
@@ -179,10 +208,10 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                     </form>
                 </div>
             </div>
@@ -195,6 +224,40 @@
         window.onload = modaledit.show();
     </script> --}}
     <script type="module">
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.edit-alat-medis')) {
+                var alatId = event.target.dataset.id_alat;
+                var namaAlat = event.target.dataset.nama_alat;
+                var jenisAlat = event.target.dataset.jenis_alat;
+                var gambarAlat = event.target.dataset.gambar_alat;
+                var gambarAlathash = event.target.dataset.gambar_hash;
+                var ruangAlat = event.target.dataset.ruangan_alat;
+                var merkAlat = event.target.dataset.merk_alat;
+
+
+                var editAlatForm = document.getElementById('edit-alat-form');
+                var alatIdInput = document.getElementById('edit_alat_id');
+                var namaAlatInput = document.getElementById('edit_alat_medis');
+                var gambarAlatInput = document.getElementById('imagesrc');
+                var jenisInput = document.getElementById('edit_jenis_alat');
+                var merkInput = document.getElementById('edit_merk_alat');
+                var ruanganInput = document.getElementById('edit_ruangan_alat');
+                var newSrc = '{{ asset('storage/files') }}/' + gambarAlathash;
+
+                alatIdInput.value = alatId;
+                namaAlatInput.value = namaAlat;
+                gambarAlatInput.src = newSrc;
+                jenisInput.value = jenisAlat;
+                merkInput.value = merkAlat;
+
+                ruanganInput.value = ruangAlat;
+                editAlatForm.action = '/dataalat/edit/' + alatId;
+
+                // var modal = document.getElementById('edit-user-modal');
+                // var bootstrapModal = new bootstrap.Modal(modal);
+                // bootstrapModal.show();
+            }
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownToggle = document.getElementById('dropdown-toggle');
 
