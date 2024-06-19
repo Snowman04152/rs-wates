@@ -1,21 +1,19 @@
-@extends('admin.layouts.app')
+@extends('user.layouts.app')
 @section('content')
 
     <div class="w-100">
         <div class="row p-3 justify-content-between">
-            <div class="col-9 fs-3 p-2"><b>Data Pemeriksaan</b></div>
+            <div class="col-9 fs-3 p-2"><b>Jadwal Pemeliharaan</b></div>
             <div class="col-3 fs-4 d-flex ">
-                <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span class="translate-middle badge rounded-pill bg-success">
-                    9
-                  </span>
-                </div>
-                <div class=" dropdown ms-1 mt-1 fs-5 " >
-                    <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Admin
-                    </button>
+                
+                <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-whatsapp "></i></a></div>
+                    <div class=" dropdown ms-1 mt-1 fs-5 " >
+                        <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{session('namaUser')}}
+                        </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -37,11 +35,12 @@
             <table class="table  border-dark text-center ">
                 <thead>
                     <tr>
-                        <th class="col">Id Alat Medis</th>
+                        <th class="col">Id Alat Medis </th>
                         <th class="col">Nama Alat Medis</th>
                         <th class="col">Nama Ruang</th>
                         <th class="col">Tanggal Pemeriksaan</th>
                         <th class="col">Kondisi</th>
+                        <th class="col">Keterangan</th>
                         <th class="col">Aksi</th>
                     </tr>
                 </thead>
@@ -51,12 +50,13 @@
                         <td>Suction Pump</td>
                         <td>7E-A</td>
                         <td>19/03/2024</td>
-                        <td>ICU</td>
+                        <td>Bejat</td>
+                        <td>Proses</td>
                         <td>
                             <div class="d-flex justify-content-center ">
                                 <button type="button" data-bs-toggle='modal' data-bs-target='#modalEdit'
-                                    class="btn btn-success me-2">Edit</button>
-                                <button type="button" class="btn btn-danger">Hapus</button>
+                                    class="btn btn-primary me-2">Selesai</button>
+                                
                             </div>
                         </td>
                     </tr>
@@ -92,6 +92,7 @@
                                 <label for="merkAlat" class="form-label mt-1">Kondisi :</label>
                                 <input type="text" class="form-control" id="merkAlat" placeholder="Kondisi">
                             </div>
+                            
                             
 
                         </div>
@@ -130,6 +131,16 @@
                             <div>
                                 <label for="merkAlat" class="form-label mt-1">Kondisi :</label>
                                 <input type="text" class="form-control" id="merkAlat" placeholder="Kondisi">
+                            </div>
+                            
+                            <div>
+                                <label for="ruanganAlat" class="form-label mt-1">Keterangan :</label>
+                                <select class="form-select" id="ruanganAlat" aria-label="Default select example">
+                                    <option selected>Pilih Ruangan</option>
+                                    <option value="1">Proses</option>
+                                    <option value="2">Dikerjakan</option>
+                                    <option value="3">Selesai</option>
+                                </select>
                             </div>
                             
 

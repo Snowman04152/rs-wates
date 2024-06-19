@@ -1,19 +1,15 @@
-@extends('admin.layouts.app')
+@extends('kepalaruang.layouts.app')
 @section('content')
     <div class="row d-grid g-0 ">
         <div class="col ">
             <div class="row p-3 justify-content-between">
                 <div class="col-9 fs-3 p-2"><b>Pemeliharaan Alat Medis</b></div>
                 <div class="col-3 fs-4 d-flex ">
-                    {{-- <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-envelope "></i></a></div> --}}
-                    <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span class="translate-middle badge rounded-pill bg-success">
-                        9
-                      </span>
-                    </div>
+                    <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-whatsapp "></i></a></div>
                     <div class=" dropdown ms-1 mt-1 fs-5 " >
                         <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Admin
+                            {{session('namaUser')}}
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
@@ -22,6 +18,11 @@
                 </div>
                 <div class="col-1"></div>
             </div>
+        </div>
+    
+
+        <div>
+      
         </div>
         <div class="col mt-5"><img src="{{ Vite::asset('resources/images/rswates.jpg') }}" class="img-fluid" alt="">
         </div>

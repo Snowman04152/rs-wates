@@ -8,38 +8,16 @@
     </div>
     <ul class="list-unstyled components fs-5">
         <li>
-            <a href="{{ route('dashboard') }}"> <i class="bi bi-house "></i> Halaman Utama </a>
+            <a href="{{ route('dashboardpegawai') }}"> <i class="bi bi-house "></i> Halaman Utama </a>
         </li>
         <li>
-            <a href="#submenu" data-bs-toggle="navigate" aria-expanded="false" id="dropdown-toggle">
-                <div class="row justify-content-between">
-                    <div class="col"><i class="bi bi-file-earmark-text"></i> Data Alat Medis</div>
-                    <div class="col-2"> <i class="bi bi-caret-down-fill "></i></div>
-
-                </div>
-            </a>
-            <ul class="collapse list-unstyled" id="submenu">
-                <li>
-                    <a href="{{ route('jenis_alat') }}">Jenis Alat Medis</a>
-                </li>
-                <li>
-                    <a href="{{ route('merk_alat') }}">Merk Alat Medis</a>
-                </li>
-                <li>
-                    <a href="{{ route('ruang_alat') }}">Ruang Alat Medis</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="{{route('data_periksa')}}"> <i class="bi bi-file-earmark-text"></i> Jadwal Pemeliharaan </a>
-        </li>
-        <li>
-            <a href="{{route('data_user')}}"> <i class="bi bi-person"></i> Data User </a>
+            <a href="{{route('data_periksa_pegawai')}}"> <i class="bi bi-file-earmark-text"></i> Jadwal Pemeliharaan </a>
         </li>
 
     </ul>
 </nav>
 
+{{-- 
 <script type="module">
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -49,16 +27,16 @@
             event.preventDefault(); // Mencegah tindakan default tautan
 
             // Buka halaman yang diinginkan
-            window.location.href = '{{ route('data_alat') }}'; // Ganti dengan URL yang Anda inginkan
+            window.location.href = '{{ route('data_alat_user') }}'; // Ganti dengan URL yang Anda inginkan
         });
         // URL halaman saat ini
         const currentUrl = "{{ route(Route::currentRouteName()) }}";
 
         // URL target di mana toggle harus terbuka
-        const urldata = '{{ route('data_alat') }}'; // Ganti dengan URL halaman yang diinginkan
-        const urljenis = '{{route('jenis_alat')}}';
-        const urlmerk = '{{route('merk_alat')}}';
-        const urlruang = '{{route('ruang_alat')}}';
+        const urldata = '{{ route('data_alat_user') }}'; // Ganti dengan URL halaman yang diinginkan
+        const urljenis = '{{route('jenis_alat_user')}}';
+        const urlmerk = '{{route('merk_alat_user')}}';
+        const urlruang = '{{route('ruang_alat_user')}}';
         // Memeriksa apakah URL saat ini adalah URL target
         if (currentUrl === urldata || currentUrl === urljenis || currentUrl === urlmerk || currentUrl === urlruang) {
             submenu.classList.add('show');
@@ -73,4 +51,4 @@
             dropdownToggle.setAttribute('aria-expanded', isExpanded.toString());
         });
     });
-</script>
+</script> --}}
