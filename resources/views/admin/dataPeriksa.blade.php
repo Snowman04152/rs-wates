@@ -14,21 +14,21 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Notif</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="container">
-                                    <table class="table table-xs border-dark text-center ">
+                                <div>
+                                    <table class="table border-dark text-center fs-6">
                                         <thead>
                                             <tr>
-                                                <th class="col">Id Alat Medis</th>
-                                                <th class="col">Nama Alat Medis</th>
-                                                <th class="col">Tanggal Pemeriksaan</th>
-                                                <th class="col">Kondisi</th>
-                                                <th class="col">Status</th>
-                                                <th class="col">Pegawai</th>
+                                                <th class="col-1">No</th>
+                                                <th class="col-5">Alat Medis</th>
+                                                <th class="col-5">Tanggal </th>
+                                                <th class="col-5">Kondisi</th>
+                                                <th class="col-5">Status</th>
+                                                <th class="col-5">Pegawai</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -54,8 +54,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                              
                             </div>
                         </div>
                     </div>

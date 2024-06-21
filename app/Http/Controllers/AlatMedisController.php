@@ -27,7 +27,9 @@ class AlatMedisController extends Controller
         $merk = Merk::get();
         $ruang = Ruang::get();
         $data_alat = DataAlat::get();
-        return view('admin.dataAlat', compact('data_alat', 'jenis', 'merk', 'ruang'));
+        $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
+        $data_kirim = DataPeriksa::where('status',1)->get();
+        return view('admin.dataAlat', compact('data_alat', 'jenis', 'merk', 'ruang','data_kirim','pemeliharaan'));
     }
     public function editDataalat(Request $request, string $id)
     {
@@ -116,7 +118,9 @@ class AlatMedisController extends Controller
     public function jenis_alat()
     {
         $jenis = Jenis::get();
-        return view('admin.jenisAlat', compact('jenis'));
+        $data_kirim = DataPeriksa::where('status',1)->get();
+        $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
+        return view('admin.jenisAlat', compact('jenis','data_kirim','pemeliharaan'));
     }
     public function createJenis(Request $request)
     {
@@ -169,8 +173,10 @@ class AlatMedisController extends Controller
     }
     public function merk_alat()
     {
+        $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
         $merk = Merk::get();
-        return view('admin.merkAlat', compact('merk'));
+        $data_kirim = DataPeriksa::where('status',1)->get();
+        return view('admin.merkAlat', compact('merk','data_kirim','pemeliharaan'));
     }
     public function createMerk(Request $request)
     {
@@ -223,8 +229,10 @@ class AlatMedisController extends Controller
     }
     public function ruang_alat()
     {
+        $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
+        $data_kirim = DataPeriksa::where('status',1)->get();
         $ruang = Ruang::get();
-        return view('admin.ruangAlat', compact('ruang'));
+        return view('admin.ruangAlat', compact('ruang','data_kirim','pemeliharaan'));
     }
 
     
@@ -232,7 +240,9 @@ class AlatMedisController extends Controller
     public function data_user()
     {
         $user = User::get();
-        return view('admin.dataUser', compact('user'));
+        $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
+        $data_kirim = DataPeriksa::where('status',1)->get();
+        return view('admin.dataUser', compact('user','data_kirim','pemeliharaan'));
     }
     public function createRuangan(Request $request)
     {
