@@ -44,7 +44,11 @@ return new class extends Migration
         Schema::create('data_periksas', function (Blueprint $table) {
             $table->id()->primary();
             $table->string('data_alat_id')->foreignId();
-            $table->string('tanggal');
+            $table->int('pegawai_id');
+            $table->int('status');
+            $table->string('kondisi');
+            $table->string('pesan');
+            $table->date('tanggal');
             
             $table->timestamps();
         });

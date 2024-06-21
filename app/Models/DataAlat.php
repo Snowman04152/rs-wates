@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class DataAlat extends Model
 {
     use HasFactory;
+    
 }

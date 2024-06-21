@@ -4,10 +4,60 @@
         <div class="row p-3 justify-content-between">
             <div class="col-9 fs-3 p-2"><b>Data Alat Medis</b></div>
             <div class="col-3 fs-4 d-flex ">
-                <div><a class="btn bg-greencustom  rounded-5 ms-1 fs-5" href=""><i class="bi bi-bell "></i></a><span
+                <div><button class="btn bg-greencustom  rounded-5 ms-1 fs-5"data-bs-toggle='modal'
+                        data-bs-target="#modalNotif"><i class="bi bi-bell "></i></button><span
                         class="translate-middle badge rounded-pill bg-success">
-                        9
+                        {{ $data_kirim->count() }}
                     </span>
+                </div>
+                <div class="modal fade" id="modalNotif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Notif</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <table class="table border-dark text-center fs-6">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-1">No</th>
+                                                <th class="col-5">Alat Medis</th>
+                                                <th class="col-5">Tanggal </th>
+                                                <th class="col-5">Kondisi</th>
+                                                <th class="col-5">Status</th>
+                                                <th class="col-5">Pegawai</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                @foreach ($pemeliharaan as $datas)
+                                                    <th scope="row">{{ $loop->iteration }}</th>
+                                                    <td>{{ $datas->DataAlat->nama_alat }}</td>
+                                                    <td>{{ $datas->tanggal }}</td>
+                                                    <td>{{ $datas->kondisi }}</td>
+                                                    @if ($datas->status == 1)
+                                                        <td>Dikirim</td>
+                                                    @elseif($datas->status == 2)
+                                                        <td>Dikerjakan</td>
+                                                    @else
+                                                        <td>Selesai</td>
+                                                    @endif
+                                                    <td>{{ $datas->User->username }}</td>
+    
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class=" dropdown ms-1 mt-1 fs-5 ">
                     <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
@@ -79,6 +129,10 @@
             </table>
         </div>
     </div>
+   
+  
+  
+  
     <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

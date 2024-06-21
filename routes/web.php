@@ -37,6 +37,11 @@ Route::middleware(['auth', 'checkrole:1'])->group(function () {
     Route::put('/ruangalat/edit/{id}', [AlatMedisController::class, 'editRuangan'])->name('ruang.edit');
     Route::delete('/ruangalat/{id}', [AlatMedisController::class, 'deleteRuang'])->name('ruang.delete');
     Route::get('/dataperiksa', [AlatMedisController::class, 'data_periksa'])->name('data_periksa');
+    Route::post('/dataperiksa', [AlatMedisController::class, 'CreatePemeliharaan'])->name('pemeliharaan.add');
+    Route::put('/dataperiksa/edit/{id}', [AlatMedisController::class, 'EditPemeliharaan'])->name('pemeliharaan.edit');
+    Route::delete('/dataperiksa/{id}', [AlatMedisController::class, 'DeletePemeliharaan'])->name('pemeliharaan.delete');
+
+
     Route::get('/datauser', [AlatMedisController::class, 'data_user'])->name('data_user');
     Route::post('/datauser', [AuthController::class, 'createUser'])->name('user.add');
     Route::put('/datauser/edit/{id}', [AuthController::class, 'editUser'])->name('user.edit');
