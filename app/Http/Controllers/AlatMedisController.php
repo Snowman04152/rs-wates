@@ -10,7 +10,7 @@ use App\Models\Ruang;
 use App\Models\Jenis;
 use App\Models\Merk;
 use App\Models\DataAlat;
-
+use App\Models\DataPeriksa;
 class AlatMedisController extends Controller
 {
     /**
@@ -227,10 +227,8 @@ class AlatMedisController extends Controller
         return view('admin.ruangAlat', compact('ruang'));
     }
 
-    public function data_periksa()
-    {
-        return view('admin.dataPeriksa');
-    }
+    
+    
     public function data_user()
     {
         $user = User::get();
@@ -243,29 +241,29 @@ class AlatMedisController extends Controller
         ];
         $validator = Validator::make($request->all(), [
             'namaRuang' => 'required'
-
+            
         ], $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('showModalTambah', true);
         }
-
+        
         // ELOQUENT
         $ruang = new Ruang;
         $ruang->nama_ruang = $request->namaRuang;
-
+        
         $ruang->save();
         return redirect()->route('ruang_alat');
     }
     public function deleteRuang(Request $request, string $id)
     {
-
+        
         $deletedruang = Ruang::find($id);
         if ($deletedruang) {
             $deletedruang->delete();
         }
-
+        
         return redirect()->route('ruang_alat');
-
+        
     }
     public function editRuangan(Request $request, string $id)
     {
@@ -274,24 +272,94 @@ class AlatMedisController extends Controller
         ];
         $validator = Validator::make($request->all(), [
             'nama_ruang' => 'required'
-
+            
         ], $messages);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
         }
-
+        
         $ruang = Ruang::find($id);
         $ruang->nama_ruang = $request->nama_ruang;
         $ruang->save();
         return redirect()->route('ruang_alat');
     }
+    public function data_periksa()
+    {
+        $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
+        $data_kirim = DataPeriksa::where('status',1)->get();
+        $data = DataAlat::get();
+        $user = User::where('level',3)->get();
+        // $data_pegawai = $user->where('id',$pemeliharaan->pegawai_id)->get();
+        return view('admin.dataPeriksa', compact('data','user','pemeliharaan','data_kirim'));
+    }
+    
+    public function CreatePemeliharaan(Request $request){
+        $messages = [
+            'required' => ':Attribute harus diisi.'
+        ];
+        $validator = Validator::make($request->all(), [
+            'nama_alat' => 'required',
+            'tanggal' => 'required',
+            'kondisi' => 'required',
+            'pesan' => 'required',
+            'pegawai'=> 'required'
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
+        }
+        $dataPeriksa = new DataPeriksa;
+        $dataPeriksa->data_alat_id = $request->nama_alat;
+        $dataPeriksa->pegawai_id = $request->pegawai;
+        $dataPeriksa->kondisi = $request->kondisi;
+        $dataPeriksa->status = 1 ;
+        $dataPeriksa->pesan = $request->pesan;
+        $dataPeriksa->tanggal = $request->tanggal;
 
+        $dataPeriksa->save();
+        return redirect()->route('data_periksa');
+    }
+
+    public function DeletePemeliharaan(Request $request , string $id){
+        $deletedruang = DataPeriksa::find($id);
+        if ($deletedruang) {
+            $deletedruang->delete();
+        }
+        
+        return redirect()->route('data_periksa');
+    }
+
+    public function EditPemeliharaan(Request $request , string $id) {
+        $messages = [
+            'required' => ':Attribute harus diisi.'
+        ];
+        $validator = Validator::make($request->all(), [
+            'edit_nama_alat' => 'required',
+            'edit_tanggal' => 'required',
+            'edit_kondisi' => 'required',
+            'edit_pesan' => 'required',
+            'edit_pegawai'=> 'required',
+            'edit_status' => 'required'
+        ], $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput()->with('showModalEdit', true);
+        }
+        $dataPeriksa = DataPeriksa::find($id);
+        $dataPeriksa->data_alat_id = $request->edit_nama_alat;
+        $dataPeriksa->pegawai_id = $request->edit_pegawai;
+        $dataPeriksa->kondisi = $request->edit_kondisi;
+        $dataPeriksa->status = $request->edit_status ;
+        $dataPeriksa->pesan = $request->edit_pesan;
+        $dataPeriksa->tanggal = $request->edit_tanggal;
+
+        $dataPeriksa->save();
+        return redirect()->route('data_periksa');
+    }
     //---------------------------------------------------------------------- Function to Kepala BPS ----------------------------------------------------------------------------------------------//
     public function data_alat_user()
     {
         return view('user.dataAlatuser');
     }
-
+    
     public function jenis_alat_user()
     {
         return view('user.jenisAlatuser');
