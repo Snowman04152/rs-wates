@@ -72,11 +72,11 @@
         </div>
         <div class="row p-3 justify-content-between">
             <div class="col-3 fs-3 p-2">
-                <div class="icon-input-container">
+                {{-- <div class="icon-input-container">
                     <i class="fas fa-search"></i>
                     <input class="form-control form-control-lg  rounded-5 border border-dark pops" type="text"
                         placeholder="Mencari Alat Medis" aria-label=".form-control-lg example">
-                </div>
+                </div> --}}
             </div>
             <div class="col-2 fs-3 p-2">
                 <button type="button" data-bs-toggle='modal' data-bs-target='#modalTambah'

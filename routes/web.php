@@ -64,16 +64,48 @@ Route::middleware(['auth', 'checkrole:2 '])->group(function () {
         return view('user/dashboard');
     })->name('dashboarduser');
     Route::get('/dataalatuser', [AlatMedisController::class, 'data_alat_user'])->name('data_alat_user');
+    Route::post('/dataalatuser', [AlatMedisController::class, 'CreateDataalatuser'])->name('datauser.add');
+    Route::put('/dataalatuser/edit/{id}', [AlatMedisController::class, 'editDataalatuser'])->name('datauser.edit');
+    Route::delete('/dataalatuser/{id}', [AlatMedisController::class, 'deleteDataalatuser'])->name('datauser.delete');
+
     Route::get('/jenisalatuser', [AlatMedisController::class, 'jenis_alat_user'])->name('jenis_alat_user');
+    Route::post('/jenisalatuser', [AlatMedisController::class, 'createJenis_user'])->name('jenisuser.add');
+    Route::put('/jenisalatuser/edit/{id}', [AlatMedisController::class, 'editJenis_user'])->name('jenisuser.edit');
+    Route::delete('/jenisalatuser/{id}', [AlatMedisController::class, 'deleteJenis_ user'])->name('jenisuser.delete');
+
     Route::get('/merkalatuser', [AlatMedisController::class, 'merk_alat_user'])->name('merk_alat_user');
+    Route::post('/merkalatuser', [AlatMedisController::class, 'createMerkuser'])->name('merkuser.add');
+    Route::put('/merkalatuser/edit/{id}', [AlatMedisController::class, 'editMerkuser'])->name('merkuser.edit');
+    Route::delete('/merkalatuser/{id}', [AlatMedisController::class, 'deleteMerkuser'])->name('merkuser.delete');
+
     Route::get('/ruangalatuser', [AlatMedisController::class, 'ruang_alat_user'])->name('ruang_alat_user');
+    Route::post('/ruangalatuser', [AlatMedisController::class, 'createRuanganuser'])->name('ruanguser.add');
+    Route::put('/ruangalatuser/edit/{id}', [AlatMedisController::class, 'editRuanganuser'])->name('ruanguser.edit');
+    Route::delete('/ruangalatuser/{id}', [AlatMedisController::class, 'deleteRuanguser'])->name('ruanguser.delete');
+
+    Route::post('/dataperiksauser', [AlatMedisController::class, 'CreatePemeliharaanuser'])->name('pemeliharaanuser.add');
+    Route::put('/dataperiksauser/edit/{id}', [AlatMedisController::class, 'EditPemeliharaanuser'])->name('pemeliharaanuser.edit');
+    Route::delete('/dataperiksauser/{id}', [AlatMedisController::class, 'DeletePemeliharaanuser'])->name('pemeliharaanuser.delete');
     Route::get('/dataperiksauser', [AlatMedisController::class, 'data_periksa_user'])->name('data_periksa_user');
+
+    Route::get('/public-disk', function () {
+        Storage::disk('public');
+        Route::get('/retrieve-public-file', function () {
+            if (Storage::disk('public')) {
+                $contents = Storage::disk('public');
+            } else {
+                $contents = 'File does not exist';
+            }
+            return $contents;
+        });
+    });
 });
 Route::middleware(['auth', 'checkrole:3 '])->group(function () {
     Route::get('/dashboardpegawai', function () {
         return view('pegawai/dashboard');
     })->name('dashboardpegawai');
     Route::get('/dataperiksapegawai', [AlatMedisController::class, 'data_periksa_pegawai'])->name('data_periksa_pegawai');
+    Route::post('/dataperiksapegawai/{id}', [AlatMedisController::class, 'dataproses'])->name('pegawai.proses');
 });
 Route::middleware(['auth', 'checkrole:4 '])->group(function () {
     Route::get('/dashboardkepalaruang', function () {
