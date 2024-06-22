@@ -65,18 +65,18 @@
                         Admin
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="row p-3 justify-content-between">
             <div class="col-3 fs-3 p-2">
-                <div class="icon-input-container">
+                {{-- <div class="icon-input-container">
                     <i class="fas fa-search"></i>
                     <input class="form-control form-control-lg  rounded-5 border border-dark pops" type="text"
                         placeholder="Mencari Data User" aria-label=".form-control-lg example">
-                </div>
+                </div> --}}
             </div>
             <div class="col-2 fs-3 p-2">
                 <button type="button" data-bs-toggle='modal' data-bs-target='#modalTambah'

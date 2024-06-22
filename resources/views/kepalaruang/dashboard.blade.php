@@ -1,15 +1,21 @@
 @extends('kepalaruang.layouts.app')
 @section('content')
+@php
+use App\Models\DataPeriksa;
+     $pemeliharaan = DataPeriksa::with('DataAlat','User')->get();
+     $data_kirim = DataPeriksa::where('status',1)->get();
+     $namaUser = auth()->user()->username;
+@endphp
     <div class="row d-grid g-0 ">
         <div class="col ">
             <div class="row p-3 justify-content-between">
                 <div class="col-9 fs-3 p-2"><b>Pemeliharaan Alat Medis</b></div>
                 <div class="col-3 fs-4 d-flex ">
-                    <div><a class="btn bg-greencustom rounded-5 fs-5" href=""><i class="bi bi-whatsapp "></i></a></div>
-                    <div class=" dropdown ms-1 mt-1 fs-5 " >
+                    
+                    <div class=" dropdown ms-1 mt-1 fs-5 ">
                         <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {{session('namaUser')}}
+                            {{$namaUser}}
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
@@ -19,10 +25,10 @@
                 <div class="col-1"></div>
             </div>
         </div>
-    
+
 
         <div>
-      
+
         </div>
         <div class="col mt-5"><img src="{{ Vite::asset('resources/images/rswates.jpg') }}" class="img-fluid" alt="">
         </div>
